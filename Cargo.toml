@@ -1,0 +1,6 @@
+[package]
+name = "prefab"
+version = "0.1.0"
+authors = ["Tom Godkin <thgodkin@gmail.com>"]
+
+[dependencies]
