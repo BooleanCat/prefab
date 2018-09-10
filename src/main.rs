@@ -4,13 +4,10 @@ extern crate structopt;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
-#[structopt(name = "basic")]
+#[structopt(name = "prefab")]
 struct Opt {
-    #[structopt(short = "V", long = "version")]
-    version: bool,
-
     #[structopt(subcommand)]
-    command: Option<Subcommand>,
+    command: Subcommand,
 }
 
 #[derive(StructOpt, Debug)]
@@ -39,19 +36,11 @@ fn main() {
     let opt = Opt::from_args();
 
     match opt.command {
-        None => base(opt),
-        Some(Subcommand::Create {name}) => create(name),
-        Some(Subcommand::State {name}) => state(name),
-        Some(Subcommand::Delete {name}) => delete(name),
+        Subcommand::Create {name} => create(name),
+        Subcommand::State {name} => state(name),
+        Subcommand::Delete {name} => delete(name),
     }
     std::process::exit(1);
-}
-
-fn base(opt: Opt) {
-    if opt.version {
-        println!("dev");
-        std::process::exit(0);
-    }
 }
 
 fn create(_: String) {
