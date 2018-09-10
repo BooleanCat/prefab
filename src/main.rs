@@ -33,23 +33,15 @@ enum Subcommand {
 }
 
 fn main() {
-    let opt = Opt::from_args();
-
-    match opt.command {
+    match Opt::from_args().command {
         Subcommand::Create {name} => create(name),
         Subcommand::State {name} => state(name),
         Subcommand::Delete {name} => delete(name),
     }
 }
 
-fn create(_: String) {
-    std::process::exit(0);
-}
+fn create(_: String) {}
 
-fn state(_: String) {
-    std::process::exit(0);
-}
+fn state(_: String) {}
 
-fn delete(_: String) {
-    std::process::exit(0);
-}
+fn delete(_: String) {}
