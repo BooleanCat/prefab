@@ -54,6 +54,22 @@ describe('prefab', function()
 			local state = execute('./target/release/prefab create foo')
 			assert.are.equal(0, state.exitcode)
 		end)
+
+		when('invoked incorrectly', function()
+			local state
+
+			before_each(function()
+				state = execute('./target/release/prefab create')
+			end)
+
+			it('fails', function()
+				assert.are_not.equal(0, state.exitcode)
+			end)
+
+			it('prints usage to stderr', function()
+				assert.is_not_nil(string.find(state.stderr, 'USAGE'))
+			end)
+		end)
 	end)
 
 	describe('state', function()
@@ -61,12 +77,44 @@ describe('prefab', function()
 			local state = execute('./target/release/prefab state foo')
 			assert.are.equal(0, state.exitcode)
 		end)
+
+		when('invoked incorrectly', function()
+			local state
+
+			before_each(function()
+				state = execute('./target/release/prefab state')
+			end)
+
+			it('fails', function()
+				assert.are_not.equal(0, state.exitcode)
+			end)
+
+			it('prints usage to stderr', function()
+				assert.is_not_nil(string.find(state.stderr, 'USAGE'))
+			end)
+		end)
 	end)
 
 	describe('delete', function()
 		it('suceeds', function()
 			local state = execute('./target/release/prefab delete foo')
 			assert.are.equal(0, state.exitcode)
+		end)
+
+		when('invoked incorrectly', function()
+			local state
+
+			before_each(function()
+				state = execute('./target/release/prefab delete')
+			end)
+
+			it('fails', function()
+				assert.are_not.equal(0, state.exitcode)
+			end)
+
+			it('prints usage to stderr', function()
+				assert.is_not_nil(string.find(state.stderr, 'USAGE'))
+			end)
 		end)
 	end)
 end)
