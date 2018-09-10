@@ -40,7 +40,6 @@ fn main() {
         Subcommand::State {name} => state(name),
         Subcommand::Delete {name} => delete(name),
     }
-    std::process::exit(1);
 }
 
 fn create(_: String) {
