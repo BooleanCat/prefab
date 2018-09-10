@@ -5,7 +5,7 @@ describe('prefab', function()
 		local state
 
 		before_each(function()
-			state = execute('./target/release/prefab -h', 'r')
+			state = execute('./target/release/prefab -h')
 		end)
 
 		it('succeeds', function()
@@ -21,7 +21,7 @@ describe('prefab', function()
 		local state
 
 		before_each(function()
-			state = execute('./target/release/prefab -V', 'r')
+			state = execute('./target/release/prefab -V')
 		end)
 
 		it('succeeds', function()
@@ -35,8 +35,29 @@ describe('prefab', function()
 
 	when('invoked incorrectly', function()
 		it('fails', function()
-			local state = execute('./target/release/prefab', 'r')
+			local state = execute('./target/release/prefab')
 			assert.is_false(state.success)
+		end)
+	end)
+
+	describe('create', function()
+		it('suceeds', function()
+			local state = execute('./target/release/prefab create foo')
+			assert.is_true(state.success)
+		end)
+	end)
+
+	describe('state', function()
+		it('suceeds', function()
+			local state = execute('./target/release/prefab state foo')
+			assert.is_true(state.success)
+		end)
+	end)
+
+	describe('delete', function()
+		it('suceeds', function()
+			local state = execute('./target/release/prefab delete foo')
+			assert.is_true(state.success)
 		end)
 	end)
 end)
