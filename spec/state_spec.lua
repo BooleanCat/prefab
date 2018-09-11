@@ -1,10 +1,12 @@
 local utils = require('pl.utils')
+local path = require('pl.path')
 
 local when = describe
+local prefab = path.join('.', 'target', 'release', 'prefab')
 
 describe('state', function()
 	it('suceeds', function()
-		local _, exitcode = utils.executeex('./target/release/prefab state foo')
+		local _, exitcode = utils.executeex(prefab .. ' state foo')
 		assert.are.equal(0, exitcode)
 	end)
 
@@ -12,7 +14,7 @@ describe('state', function()
 		local exitcode, stderr
 
 		before_each(function()
-			_, exitcode, _, stderr = utils.executeex('./target/release/prefab state')
+			_, exitcode, _, stderr = utils.executeex(prefab .. ' state')
 		end)
 
 		it('fails', function()
@@ -28,7 +30,7 @@ describe('state', function()
 		local exitcode, stdout
 
 		before_each(function()
-			_, exitcode, stdout = utils.executeex('./target/release/prefab state -h')
+			_, exitcode, stdout = utils.executeex(prefab .. ' state -h')
 		end)
 
 		it('succeeds', function()

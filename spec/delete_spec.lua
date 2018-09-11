@@ -1,10 +1,12 @@
 local utils = require('pl.utils')
+local path = require('pl.path')
 
 local when = describe
+local prefab = path.join('.', 'target', 'release', 'prefab')
 
 describe('delete', function()
 	it('suceeds', function()
-		local _, exitcode = utils.executeex('./target/release/prefab delete foo')
+		local _, exitcode = utils.executeex(prefab .. ' delete foo')
 		assert.are.equal(0, exitcode)
 	end)
 
@@ -12,7 +14,7 @@ describe('delete', function()
 		local exitcode, stderr
 
 		before_each(function()
-			_, exitcode, _, stderr = utils.executeex('./target/release/prefab delete')
+			_, exitcode, _, stderr = utils.executeex(prefab .. ' delete')
 		end)
 
 		it('fails', function()
@@ -28,7 +30,7 @@ describe('delete', function()
 		local exitcode, stdout
 
 		before_each(function()
-			_, exitcode, stdout = utils.executeex('./target/release/prefab delete -h')
+			_, exitcode, stdout = utils.executeex(prefab .. ' delete -h')
 		end)
 
 		it('succeeds', function()

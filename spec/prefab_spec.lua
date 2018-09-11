@@ -1,13 +1,15 @@
 local utils = require('pl.utils')
+local path = require('pl.path')
 
 local when = describe
+local prefab = path.join('.', 'target', 'release', 'prefab')
 
 describe('prefab', function()
 	when('invoked with -h', function()
 		local exitcode, stdout
 
 		before_each(function()
-			_, exitcode, stdout = utils.executeex('./target/release/prefab -h')
+			_, exitcode, stdout = utils.executeex(prefab .. ' -h')
 		end)
 
 		it('succeeds', function()
@@ -23,7 +25,7 @@ describe('prefab', function()
 		local exitcode, stdout
 
 		before_each(function()
-			_, exitcode, stdout = utils.executeex('./target/release/prefab -V')
+			_, exitcode, stdout = utils.executeex(prefab .. ' -V')
 		end)
 
 		it('succeeds', function()
@@ -39,7 +41,7 @@ describe('prefab', function()
 		local exitcode, stderr
 
 		before_each(function()
-			_, exitcode, _, stderr = utils.executeex('./target/release/prefab')
+			_, exitcode, _, stderr = utils.executeex(prefab)
 		end)
 
 		it('fails', function()
