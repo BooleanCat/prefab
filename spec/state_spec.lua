@@ -1,42 +1,42 @@
-local utils = require 'spec.utils'
+local exec = require('spec.exec')
 
 local when = describe
 
 describe('state', function()
 	it('suceeds', function()
-		local state = utils.execute './target/release/prefab state foo'
-		assert.are.equal(0, state.exitcode)
+		local exitcode = exec.command('./target/release/prefab state foo')
+		assert.are.equal(0, exitcode)
 	end)
 
 	when('invoked incorrectly', function()
-		local state
+		local exitcode, stderr
 
 		before_each(function()
-			state = utils.execute './target/release/prefab state'
+			exitcode, _, stderr = exec.command('./target/release/prefab state')
 		end)
 
 		it('fails', function()
-			assert.are_not.equal(0, state.exitcode)
+			assert.are_not.equal(0, exitcode)
 		end)
 
 		it('prints usage to stderr', function()
-			assert.is_not_nil(string.find(state.stderr, 'USAGE'))
+			assert.is_not_nil(string.find(stderr, 'USAGE'))
 		end)
 	end)
 
 	when('invoked with -h', function()
-		local state
+		local exitcode, stdout
 
 		before_each(function()
-			state = utils.execute './target/release/prefab state -h'
+			exitcode, stdout = exec.command('./target/release/prefab state -h')
 		end)
 
 		it('succeeds', function()
-			assert.are.equal(0, state.exitcode)
+			assert.are.equal(0, exitcode)
 		end)
 
 		it('prints help', function()
-			assert.is_not_nil(string.find(state.stdout, 'USAGE'))
+			assert.is_not_nil(string.find(stdout, 'USAGE'))
 		end)
 	end)
 end)
