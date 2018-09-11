@@ -1,4 +1,4 @@
-local exec = require('spec.exec')
+local utils = require('pl.utils')
 
 local when = describe
 
@@ -7,7 +7,7 @@ describe('prefab', function()
 		local exitcode, stdout
 
 		before_each(function()
-			exitcode, stdout = exec.command('./target/release/prefab -h')
+			_, exitcode, stdout = utils.executeex('./target/release/prefab -h')
 		end)
 
 		it('succeeds', function()
@@ -23,7 +23,7 @@ describe('prefab', function()
 		local exitcode, stdout
 
 		before_each(function()
-			exitcode, stdout = exec.command('./target/release/prefab -V')
+			_, exitcode, stdout = utils.executeex('./target/release/prefab -V')
 		end)
 
 		it('succeeds', function()
@@ -39,7 +39,7 @@ describe('prefab', function()
 		local exitcode, stderr
 
 		before_each(function()
-			exitcode, _, stderr = exec.command('./target/release/prefab')
+			_, exitcode, _, stderr = utils.executeex('./target/release/prefab')
 		end)
 
 		it('fails', function()
