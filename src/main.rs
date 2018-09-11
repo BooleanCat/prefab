@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate structopt;
 
+use structopt::clap::AppSettings;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
@@ -12,19 +13,19 @@ struct Opt {
 
 #[derive(StructOpt, Debug)]
 enum Subcommand {
-    #[structopt(name = "create")]
+    #[structopt(name = "create", raw(global_settings = "&[AppSettings::DisableVersion]"))]
     Create {
         #[structopt(name = "NAME")]
         name: String,
     },
 
-    #[structopt(name = "state")]
+    #[structopt(name = "state", raw(global_settings = "&[AppSettings::DisableVersion]"))]
     State {
         #[structopt(name = "NAME")]
         name: String,
     },
 
-    #[structopt(name = "delete")]
+    #[structopt(name = "delete", raw(global_settings = "&[AppSettings::DisableVersion]"))]
     Delete {
         #[structopt(name = "NAME")]
         name: String,
