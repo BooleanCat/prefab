@@ -4,7 +4,7 @@ local when = describe
 
 describe('create', function()
 	it('suceeds', function()
-		local state = utils.execute './target/release/prefab create foo'
+		local state = utils.execute './target/release/prefab create foo /some/bundle'
 		assert.are.equal(0, state.exitcode)
 	end)
 

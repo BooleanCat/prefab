@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate structopt;
 
+use std::path::PathBuf;
 use structopt::clap::AppSettings;
 use structopt::StructOpt;
 
@@ -17,6 +18,9 @@ enum Subcommand {
     Create {
         #[structopt(name = "NAME")]
         name: String,
+
+        #[structopt(name = "PATH-TO-BUNDLE", parse(from_os_str))]
+        bundle_path: PathBuf,
     },
 
     #[structopt(name = "state", raw(global_settings = "&[AppSettings::DisableVersion]"))]
@@ -30,18 +34,17 @@ enum Subcommand {
         #[structopt(name = "NAME")]
         name: String,
     },
-
 }
 
 fn main() {
     match Opt::from_args().command {
-        Subcommand::Create {name} => create(name),
+        Subcommand::Create {name, bundle_path} => create(name, bundle_path),
         Subcommand::State {name} => state(name),
         Subcommand::Delete {name} => delete(name),
     }
 }
 
-fn create(_: String) {}
+fn create(_: String, _: PathBuf) {}
 
 fn state(_: String) {}
 
