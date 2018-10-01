@@ -1,9 +1,18 @@
+mod config;
+
 #[macro_use]
 extern crate structopt;
+
+extern crate serde;
+extern crate serde_json;
+
+#[macro_use]
+extern crate serde_derive;
 
 use std::path::PathBuf;
 use structopt::clap::AppSettings;
 use structopt::StructOpt;
+use config::Config;
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "prefab")]
@@ -44,7 +53,11 @@ fn main() {
     }
 }
 
-fn create(_: String, _: PathBuf) {}
+fn create(_: String, _: PathBuf) {
+    let _ = Config{
+        oci_version: "dummy".to_string(),
+    };
+}
 
 fn state(_: String) {}
 
