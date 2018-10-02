@@ -4,8 +4,6 @@ mod config;
 extern crate structopt;
 
 extern crate serde;
-
-#[cfg_attr(test, macro_use)]
 extern crate serde_json;
 
 #[macro_use]
@@ -56,9 +54,7 @@ fn main() {
 }
 
 fn create(_: String, _: PathBuf) {
-    let _ = Config{
-        oci_version: "dummy".to_string(),
-    };
+    let _: Config = Default::default();
 }
 
 fn state(_: String) {}
