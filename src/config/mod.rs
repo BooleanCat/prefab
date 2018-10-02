@@ -28,7 +28,12 @@ mod tests {
     #[test]
     fn serialize_deserialize_config() {
         let root = Root{path: String::from("/foo/bar"), readonly: true};
-        let process = Process{terminal: true, console_size: ConsoleSize{height: 1, width: 1}};
+        let process = Process{
+            terminal: true,
+            console_size: ConsoleSize{height: 1, width: 1},
+            cwd: String::from("/bar/baz"),
+            env: vec![String::from("FOO=BAR")],
+        };
         let config = Config{
             oci_version: String::from("foo"),
             root: root,
