@@ -1,14 +1,19 @@
 mod process;
 mod root;
+mod mount;
 
 pub use self::process::{Process, ConsoleSize};
 pub use self::root::Root;
+pub use self::mount::Mount;
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Config {
     pub oci_version: String,
     pub root: Root,
+
+    #[serde(default)]
+    pub mounts: Vec<Mount>,
 
     #[serde(default)]
     pub process: Process,
@@ -29,6 +34,7 @@ mod tests {
                 "path": "",
                 "readonly": false
             },
+            "mounts": [],
             "process": {
                 "terminal": false,
                 "consoleSize": {
@@ -49,9 +55,9 @@ mod tests {
         let json = r#"{
             "ociVersion": "foo",
             "root": {
-                "path": "",
-                "readonly": false
+                "path": ""
             },
+            "mounts": [],
             "process": {
                 "terminal": false,
                 "consoleSize": {
@@ -95,6 +101,7 @@ mod tests {
         Config{
             oci_version: String::from("foo"),
             root: Default::default(),
+            mounts: Default::default(),
             process: Default::default(),
         }
     }
