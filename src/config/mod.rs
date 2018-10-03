@@ -16,7 +16,7 @@ pub struct Config {
 
 #[cfg(test)]
 mod tests {
-    use super::{Config, Root, Process, ConsoleSize};
+    use super::{Config, Root};
     use serde_json;
 
     #[test]
@@ -26,17 +26,18 @@ mod tests {
         let expected = json!({
             "ociVersion": "foo",
             "root": {
-                "path": "/foo/bar",
-                "readonly": true
+                "path": "",
+                "readonly": false
             },
             "process": {
-                "terminal": true,
+                "terminal": false,
                 "consoleSize": {
-                    "height": 100,
-                    "width": 200
+                    "height": 0,
+                    "width": 0
                 },
-                "cwd": "/foo/bar",
-                "env": ["FOO=BAR"]
+                "cwd": "",
+                "env": [],
+                "args": []
             }
         });
 
@@ -48,17 +49,18 @@ mod tests {
         let json = r#"{
             "ociVersion": "foo",
             "root": {
-                "path": "/foo/bar",
-                "readonly": true
+                "path": "",
+                "readonly": false
             },
             "process": {
-                "terminal": true,
+                "terminal": false,
                 "consoleSize": {
-                    "height": 100,
-                    "width": 200
+                    "height": 0,
+                    "width": 0
                 },
-                "cwd": "/foo/bar",
-                "env": ["FOO=BAR"]
+                "cwd": "",
+                "env": [],
+                "args": []
             }
         }"#;
 
@@ -92,19 +94,8 @@ mod tests {
     fn config_prototype() -> Config {
         Config{
             oci_version: String::from("foo"),
-            root: Root {
-                path: String::from("/foo/bar"),
-                readonly: true,
-            },
-            process: Process{
-                terminal: true,
-                console_size: ConsoleSize{
-                    height: 100,
-                    width: 200,
-                },
-                cwd: String::from("/foo/bar"),
-                env: vec![String::from("FOO=BAR")],
-            },
+            root: Default::default(),
+            process: Default::default(),
         }
     }
 }

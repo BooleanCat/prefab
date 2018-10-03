@@ -15,6 +15,8 @@ pub struct Process {
 
     #[serde(default)]
     pub env: Vec<String>,
+
+    pub args: Vec<String>,
 }
 
 #[cfg(test)]
@@ -33,7 +35,8 @@ mod tests {
                 "width": 0
             },
             "cwd": "/foo/bar",
-            "env": ["FOO=BAR"]
+            "env": ["FOO=BAR"],
+            "args": ["foo", "bar"]
         });
 
         assert_eq!(expected, json);
@@ -48,7 +51,8 @@ mod tests {
                 "width": 0
             },
             "cwd": "/foo/bar",
-            "env": ["FOO=BAR"]
+            "env": ["FOO=BAR"],
+            "args": ["foo", "bar"]
         }"#;
 
         let process: Process = serde_json::from_str(json).unwrap();
@@ -59,7 +63,8 @@ mod tests {
     #[test]
     fn deserialize_process_optional_fields() {
         let process: Process = serde_json::from_str(r#"{
-            "cwd": "/foo/bar"
+            "cwd": "/foo/bar",
+            "args": ["foo", "bar"]
         }"#).unwrap();
         let expected = Process{
             terminal: false,
@@ -67,6 +72,7 @@ mod tests {
             env: vec![],
 
             cwd: String::from("/foo/bar"),
+            args: vec![String::from("foo"), String::from("bar")],
         };
 
         assert_eq!(expected, process);
@@ -78,6 +84,7 @@ mod tests {
             console_size: Default::default(),
             cwd: String::from("/foo/bar"),
             env: vec![String::from("FOO=BAR")],
+            args: vec![String::from("foo"), String::from("bar")],
         }
     }
 }
