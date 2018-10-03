@@ -1,6 +1,8 @@
 mod process;
+mod root;
 
 pub use self::process::{Process, ConsoleSize};
+pub use self::root::Root;
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -10,14 +12,6 @@ pub struct Config {
 
     #[serde(default)]
     pub process: Process,
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
-pub struct Root {
-    pub path: String,
-
-    #[serde(default)]
-    pub readonly: bool,
 }
 
 #[cfg(test)]
@@ -93,17 +87,6 @@ mod tests {
         };
 
         assert_eq!(expected, config);
-    }
-
-    #[test]
-    fn deserialize_root_readonly_optional() {
-        let root: Root = serde_json::from_str(r#"{"path": "/foo/bar"}"#).unwrap();
-        let expected = Root{
-            path: String::from("/foo/bar"),
-            readonly: false,
-        };
-
-        assert_eq!(expected, root);
     }
 
     fn config_prototype() -> Config {
