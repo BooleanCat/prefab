@@ -1,10 +1,12 @@
 mod process;
 mod root;
 mod mount;
+mod hooks;
 
 pub use self::process::{Process, ConsoleSize, RLimit, Capabilities, User};
 pub use self::root::Root;
 pub use self::mount::Mount;
+pub use self::hooks::{Hooks, Hook};
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -20,6 +22,9 @@ pub struct Config {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub hostname: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hooks: Option<Hooks>,
 }
 
 #[cfg(test)]
@@ -41,7 +46,8 @@ mod tests {
                 "cwd": "",
                 "args": []
             },
-            "hostname": "pikachu"
+            "hostname": "pikachu",
+            "hooks": {}
         });
 
         assert_eq!(expected, json);
@@ -59,7 +65,8 @@ mod tests {
                 "cwd": "",
                 "args": []
             },
-            "hostname": "pikachu"
+            "hostname": "pikachu",
+            "hooks": {}
         }"#;
 
         let config: Config = serde_json::from_str(json).unwrap();
@@ -78,6 +85,7 @@ mod tests {
             mounts: None,
             process: None,
             hostname: None,
+            hooks: None,
 
             oci_version: String::from("foo"),
             root: Default::default(),
@@ -93,6 +101,7 @@ mod tests {
             mounts: Some(vec![]),
             process: Some(Default::default()),
             hostname: Some(String::from("pikachu")),
+            hooks: Some(Default::default()),
         }
     }
 }

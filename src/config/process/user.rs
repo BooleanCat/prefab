@@ -50,6 +50,7 @@ mod tests {
             "uid": 42,
             "gid": 43
         }"#).unwrap();
+
         let expected = User{
             additional_gids: None,
             username: None,
