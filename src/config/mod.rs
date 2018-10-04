@@ -2,7 +2,7 @@ mod process;
 mod root;
 mod mount;
 
-pub use self::process::{Process, ConsoleSize};
+pub use self::process::{Process, ConsoleSize, RLimit};
 pub use self::root::Root;
 pub use self::mount::Mount;
 
@@ -43,7 +43,17 @@ mod tests {
                 },
                 "cwd": "",
                 "env": [],
-                "args": []
+                "args": [],
+                "rlimits": [],
+                "apparmorProfile": "",
+                "capabilities": {
+                    "effective": [],
+                    "bounding": [],
+                    "inheritable": [],
+                    "permitted": [],
+                    "ambient": []
+                },
+                "noNewPrivileges": false
             }
         });
 
@@ -66,7 +76,17 @@ mod tests {
                 },
                 "cwd": "",
                 "env": [],
-                "args": []
+                "args": [],
+                "rlimits": [],
+                "apparmorProfile": "",
+                "capabilities": {
+                    "effective": [],
+                    "bounding": [],
+                    "inheritable": [],
+                    "permitted": [],
+                    "ambient": []
+                },
+                "noNewPrivileges": false
             }
         }"#;
 

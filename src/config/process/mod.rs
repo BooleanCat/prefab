@@ -1,6 +1,10 @@
 mod console_size;
+mod rlimit;
+mod capabilities;
 
 pub use self::console_size::ConsoleSize;
+pub use self::rlimit::RLimit;
+pub use self::capabilities::Capabilities;
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -17,6 +21,18 @@ pub struct Process {
     pub env: Vec<String>,
 
     pub args: Vec<String>,
+
+    #[serde(default)]
+    pub rlimits: Vec<RLimit>,
+
+    #[serde(default)]
+    pub apparmor_profile: String,
+
+    #[serde(default)]
+    pub capabilities: Capabilities,
+
+    #[serde(default)]
+    pub no_new_privileges: bool,
 }
 
 #[cfg(test)]
@@ -36,7 +52,17 @@ mod tests {
             },
             "cwd": "/foo/bar",
             "env": ["FOO=BAR"],
-            "args": ["foo", "bar"]
+            "args": ["foo", "bar"],
+            "rlimits": [],
+            "apparmorProfile": "so-secure",
+            "capabilities": {
+                "effective": [],
+                "bounding": [],
+                "inheritable": [],
+                "permitted": [],
+                "ambient": []
+            },
+            "noNewPrivileges": true
         });
 
         assert_eq!(expected, json);
@@ -52,7 +78,17 @@ mod tests {
             },
             "cwd": "/foo/bar",
             "env": ["FOO=BAR"],
-            "args": ["foo", "bar"]
+            "args": ["foo", "bar"],
+            "rlimits": [],
+            "apparmorProfile": "so-secure",
+            "capabilities": {
+                "effective": [],
+                "bounding": [],
+                "inheritable": [],
+                "permitted": [],
+                "ambient": []
+            },
+            "noNewPrivileges": true
         }"#;
 
         let process: Process = serde_json::from_str(json).unwrap();
@@ -70,6 +106,10 @@ mod tests {
             terminal: false,
             console_size: Default::default(),
             env: vec![],
+            rlimits: vec![],
+            apparmor_profile: String::from(""),
+            capabilities: Default::default(),
+            no_new_privileges: false,
 
             cwd: String::from("/foo/bar"),
             args: vec![String::from("foo"), String::from("bar")],
@@ -85,6 +125,10 @@ mod tests {
             cwd: String::from("/foo/bar"),
             env: vec![String::from("FOO=BAR")],
             args: vec![String::from("foo"), String::from("bar")],
+            rlimits: Default::default(),
+            apparmor_profile: String::from("so-secure"),
+            capabilities: Default::default(),
+            no_new_privileges: true,
         }
     }
 }
