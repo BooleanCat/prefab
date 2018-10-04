@@ -26,7 +26,7 @@ mod tests {
     }
 
     #[test]
-    fn deserialize_process() {
+    fn deserialize_rlimit() {
         let json = r#"{
             "type": "RLIMIT_MSGQUEUE",
             "soft": 1234,

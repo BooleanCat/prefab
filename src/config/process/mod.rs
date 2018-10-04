@@ -1,10 +1,12 @@
 mod console_size;
 mod rlimit;
 mod capabilities;
+mod user;
 
 pub use self::console_size::ConsoleSize;
 pub use self::rlimit::RLimit;
 pub use self::capabilities::Capabilities;
+pub use self::user::User;
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -33,6 +35,15 @@ pub struct Process {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub no_new_privileges: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub oom_score_adj: Option<isize>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub selinux_label: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user: Option<User>,
 }
 
 #[cfg(test)]
@@ -56,7 +67,13 @@ mod tests {
             "rlimits": [],
             "apparmorProfile": "so-secure",
             "capabilities": {},
-            "noNewPrivileges": true
+            "noNewPrivileges": true,
+            "oomScoreAdj": 14,
+            "selinuxLabel": "foo",
+            "user": {
+                "uid": 0,
+                "gid": 0
+            }
         });
 
         assert_eq!(expected, json);
@@ -76,7 +93,13 @@ mod tests {
             "rlimits": [],
             "apparmorProfile": "so-secure",
             "capabilities": {},
-            "noNewPrivileges": true
+            "noNewPrivileges": true,
+            "oomScoreAdj": 14,
+            "selinuxLabel": "foo",
+            "user": {
+                "uid": 0,
+                "gid": 0
+            }
         }"#;
 
         let process: Process = serde_json::from_str(json).unwrap();
@@ -98,6 +121,9 @@ mod tests {
             apparmor_profile: None,
             capabilities: None,
             no_new_privileges: None,
+            oom_score_adj: None,
+            selinux_label: None,
+            user: None,
 
             cwd: String::from("/foo/bar"),
             args: vec![String::from("foo"), String::from("bar")],
@@ -117,6 +143,9 @@ mod tests {
             apparmor_profile: Some(String::from("so-secure")),
             capabilities: Some(Default::default()),
             no_new_privileges: Some(true),
+            oom_score_adj: Some(14),
+            selinux_label: Some(String::from("foo")),
+            user: Some(Default::default()),
         }
     }
 }

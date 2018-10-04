@@ -2,7 +2,7 @@ mod process;
 mod root;
 mod mount;
 
-pub use self::process::{Process, ConsoleSize, RLimit};
+pub use self::process::{Process, ConsoleSize, RLimit, Capabilities, User};
 pub use self::root::Root;
 pub use self::mount::Mount;
 
