@@ -24,7 +24,7 @@ pub struct Config {
 
 #[cfg(test)]
 mod tests {
-    use super::{Config, Root};
+    use super::Config;
     use serde_json;
 
     #[test]
@@ -71,9 +71,7 @@ mod tests {
     fn deserialize_config_optional_fields() {
         let config: Config = serde_json::from_str(r#"{
             "ociVersion": "foo",
-            "root": {
-                "path": "/foo/bar"
-            }
+            "root": {"path": ""}
         }"#).unwrap();
 
         let expected = Config{
@@ -82,10 +80,7 @@ mod tests {
             hostname: None,
 
             oci_version: String::from("foo"),
-            root: Root{
-                path: String::from("/foo/bar"),
-                readonly: None,
-            },
+            root: Default::default(),
         };
 
         assert_eq!(expected, config);
