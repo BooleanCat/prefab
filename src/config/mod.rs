@@ -8,6 +8,8 @@ pub use self::root::Root;
 pub use self::mount::Mount;
 pub use self::hooks::{Hooks, Hook};
 
+use std::collections::HashMap;
+
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Config {
@@ -25,6 +27,9 @@ pub struct Config {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub hooks: Option<Hooks>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub annotations: Option<HashMap<String, String>>,
 }
 
 #[cfg(test)]
@@ -47,7 +52,11 @@ mod tests {
                 "args": []
             },
             "hostname": "pikachu",
-            "hooks": {}
+            "hooks": {},
+            "annotations": {
+                "foo": "bar",
+                "bar": "baz"
+            }
         });
 
         assert_eq!(expected, json);
@@ -66,7 +75,11 @@ mod tests {
                 "args": []
             },
             "hostname": "pikachu",
-            "hooks": {}
+            "hooks": {},
+            "annotations": {
+                "foo": "bar",
+                "bar": "baz"
+            }
         }"#;
 
         let config: Config = serde_json::from_str(json).unwrap();
@@ -86,12 +99,21 @@ mod tests {
             process: None,
             hostname: None,
             hooks: None,
+            annotations: None,
 
             oci_version: String::from("foo"),
             root: Default::default(),
         };
 
         assert_eq!(expected, config);
+    }
+
+    macro_rules! hashmap {
+        ($( $key: expr => $val: expr ),*) => {{
+            let mut map = ::std::collections::HashMap::new();
+            $( map.insert($key, $val); )*
+            map
+        }}
     }
 
     fn config_prototype() -> Config {
@@ -102,6 +124,10 @@ mod tests {
             process: Some(Default::default()),
             hostname: Some(String::from("pikachu")),
             hooks: Some(Default::default()),
+            annotations: Some(hashmap![
+                String::from("foo") => String::from("bar"),
+                String::from("bar") => String::from("baz")
+            ]),
         }
     }
 }
