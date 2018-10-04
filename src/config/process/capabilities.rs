@@ -1,19 +1,19 @@
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Capabilities{
-    #[serde(default)]
-    pub effective: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub effective: Option<Vec<String>>,
 
-    #[serde(default)]
-    pub bounding: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bounding: Option<Vec<String>>,
 
-    #[serde(default)]
-    pub inheritable: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub inheritable: Option<Vec<String>>,
 
-    #[serde(default)]
-    pub permitted: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub permitted: Option<Vec<String>>,
 
-    #[serde(default)]
-    pub ambient: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ambient: Option<Vec<String>>,
 }
 
 #[cfg(test)]
@@ -55,11 +55,11 @@ mod tests {
     fn deserialize_capabilities_optional_fields() {
         let capabilities: Capabilities = serde_json::from_str("{}").unwrap();
         let expected = Capabilities{
-            effective: vec![],
-            bounding: vec![],
-            inheritable: vec![],
-            permitted: vec![],
-            ambient: vec![],
+            effective: None,
+            bounding: None,
+            inheritable: None,
+            permitted: None,
+            ambient: None,
         };
 
         assert_eq!(expected, capabilities);
@@ -67,11 +67,11 @@ mod tests {
 
     fn capabilities_prototype() -> Capabilities {
         Capabilities{
-            effective: vec![String::from("CAP_CHOWN")],
-            bounding: vec![String::from("CAP_DAC_OVERRIDE")],
-            inheritable: vec![String::from("CAP_FSETID")],
-            permitted: vec![String::from("CAP_FOWNER")],
-            ambient: vec![String::from("CAP_MKNOD")],
+            effective: Some(vec![String::from("CAP_CHOWN")]),
+            bounding: Some(vec![String::from("CAP_DAC_OVERRIDE")]),
+            inheritable: Some(vec![String::from("CAP_FSETID")]),
+            permitted: Some(vec![String::from("CAP_FOWNER")]),
+            ambient: Some(vec![String::from("CAP_MKNOD")]),
         }
     }
 }

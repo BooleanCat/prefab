@@ -9,30 +9,30 @@ pub use self::capabilities::Capabilities;
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Process {
-    #[serde(default)]
-    pub terminal: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terminal: Option<bool>,
 
-    #[serde(default)]
-    pub console_size: ConsoleSize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub console_size: Option<ConsoleSize>,
 
     pub cwd: String,
 
-    #[serde(default)]
-    pub env: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub env: Option<Vec<String>>,
 
     pub args: Vec<String>,
 
-    #[serde(default)]
-    pub rlimits: Vec<RLimit>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rlimits: Option<Vec<RLimit>>,
 
-    #[serde(default)]
-    pub apparmor_profile: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub apparmor_profile: Option<String>,
 
-    #[serde(default)]
-    pub capabilities: Capabilities,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub capabilities: Option<Capabilities>,
 
-    #[serde(default)]
-    pub no_new_privileges: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub no_new_privileges: Option<bool>,
 }
 
 #[cfg(test)]
@@ -55,13 +55,7 @@ mod tests {
             "args": ["foo", "bar"],
             "rlimits": [],
             "apparmorProfile": "so-secure",
-            "capabilities": {
-                "effective": [],
-                "bounding": [],
-                "inheritable": [],
-                "permitted": [],
-                "ambient": []
-            },
+            "capabilities": {},
             "noNewPrivileges": true
         });
 
@@ -81,13 +75,7 @@ mod tests {
             "args": ["foo", "bar"],
             "rlimits": [],
             "apparmorProfile": "so-secure",
-            "capabilities": {
-                "effective": [],
-                "bounding": [],
-                "inheritable": [],
-                "permitted": [],
-                "ambient": []
-            },
+            "capabilities": {},
             "noNewPrivileges": true
         }"#;
 
@@ -103,13 +91,13 @@ mod tests {
             "args": ["foo", "bar"]
         }"#).unwrap();
         let expected = Process{
-            terminal: false,
-            console_size: Default::default(),
-            env: vec![],
-            rlimits: vec![],
-            apparmor_profile: String::from(""),
-            capabilities: Default::default(),
-            no_new_privileges: false,
+            terminal: None,
+            console_size: None,
+            env: None,
+            rlimits: None,
+            apparmor_profile: None,
+            capabilities: None,
+            no_new_privileges: None,
 
             cwd: String::from("/foo/bar"),
             args: vec![String::from("foo"), String::from("bar")],
@@ -120,15 +108,15 @@ mod tests {
 
     fn process_prototype() -> Process {
         Process{
-            terminal: true,
-            console_size: Default::default(),
+            terminal: Some(true),
+            console_size: Some(Default::default()),
             cwd: String::from("/foo/bar"),
-            env: vec![String::from("FOO=BAR")],
+            env: Some(vec![String::from("FOO=BAR")]),
             args: vec![String::from("foo"), String::from("bar")],
-            rlimits: Default::default(),
-            apparmor_profile: String::from("so-secure"),
-            capabilities: Default::default(),
-            no_new_privileges: true,
+            rlimits: Some(vec![]),
+            apparmor_profile: Some(String::from("so-secure")),
+            capabilities: Some(Default::default()),
+            no_new_privileges: Some(true),
         }
     }
 }

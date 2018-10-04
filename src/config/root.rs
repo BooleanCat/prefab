@@ -2,8 +2,8 @@
 pub struct Root {
     pub path: String,
 
-    #[serde(default)]
-    pub readonly: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub readonly: Option<bool>,
 }
 
 #[cfg(test)]
@@ -40,7 +40,7 @@ mod tests {
         let root: Root = serde_json::from_str(r#"{"path": "/foo/bar"}"#).unwrap();
         let expected = Root{
             path: String::from("/foo/bar"),
-            readonly: false,
+            readonly: None,
         };
 
         assert_eq!(expected, root);
@@ -49,7 +49,7 @@ mod tests {
     fn root_prototype() -> Root {
         Root {
             path: String::from("/foo/bar"),
-            readonly: true,
+            readonly: Some(true),
         }
     }
 }

@@ -2,15 +2,15 @@
 pub struct Mount{
     pub destination: String,
 
-    #[serde(default)]
-    pub source: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub source: Option<String>,
 
-    #[serde(default)]
-    pub options: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub options: Option<Vec<String>>,
 
-    #[serde(default)]
     #[serde(rename = "type")]
-    pub mount_type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mount_type: Option<String>,
 }
 
 #[cfg(test)]
@@ -54,7 +54,9 @@ mod tests {
 
         let expected = Mount{
             destination: String::from("/some/mount/destination"),
-            ..Default::default()
+            source: None,
+            options: None,
+            mount_type: None,
         };
 
         assert_eq!(expected, mount);
@@ -63,9 +65,9 @@ mod tests {
     fn mount_prototype() -> Mount {
         Mount{
             destination: String::from("/some/mount/destination"),
-            source: String::from("/some/mount/source"),
-            options: vec![String::from("ro"), String::from("bind")],
-            mount_type: String::from("none"),
+            source: Some(String::from("/some/mount/source")),
+            options: Some(vec![String::from("ro"), String::from("bind")]),
+            mount_type: Some(String::from("none")),
         }
     }
 }

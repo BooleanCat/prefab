@@ -12,11 +12,11 @@ pub struct Config {
     pub oci_version: String,
     pub root: Root,
 
-    #[serde(default)]
-    pub mounts: Vec<Mount>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mounts: Option<Vec<Mount>>,
 
-    #[serde(default)]
-    pub process: Process,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub process: Option<Process>,
 }
 
 #[cfg(test)]
@@ -32,28 +32,11 @@ mod tests {
             "ociVersion": "foo",
             "root": {
                 "path": "",
-                "readonly": false
             },
             "mounts": [],
             "process": {
-                "terminal": false,
-                "consoleSize": {
-                    "height": 0,
-                    "width": 0
-                },
                 "cwd": "",
-                "env": [],
-                "args": [],
-                "rlimits": [],
-                "apparmorProfile": "",
-                "capabilities": {
-                    "effective": [],
-                    "bounding": [],
-                    "inheritable": [],
-                    "permitted": [],
-                    "ambient": []
-                },
-                "noNewPrivileges": false
+                "args": []
             }
         });
 
@@ -69,24 +52,8 @@ mod tests {
             },
             "mounts": [],
             "process": {
-                "terminal": false,
-                "consoleSize": {
-                    "height": 0,
-                    "width": 0
-                },
                 "cwd": "",
-                "env": [],
-                "args": [],
-                "rlimits": [],
-                "apparmorProfile": "",
-                "capabilities": {
-                    "effective": [],
-                    "bounding": [],
-                    "inheritable": [],
-                    "permitted": [],
-                    "ambient": []
-                },
-                "noNewPrivileges": false
+                "args": []
             }
         }"#;
 
@@ -100,18 +67,19 @@ mod tests {
         let config: Config = serde_json::from_str(r#"{
             "ociVersion": "foo",
             "root": {
-                "path": "/foo/bar",
-                "readonly": true
+                "path": "/foo/bar"
             }
         }"#).unwrap();
 
         let expected = Config{
+            mounts: None,
+            process: None,
+
             oci_version: String::from("foo"),
             root: Root{
                 path: String::from("/foo/bar"),
-                readonly: true,
+                readonly: None,
             },
-            ..Default::default()
         };
 
         assert_eq!(expected, config);
@@ -121,8 +89,8 @@ mod tests {
         Config{
             oci_version: String::from("foo"),
             root: Default::default(),
-            mounts: Default::default(),
-            process: Default::default(),
+            mounts: Some(vec![]),
+            process: Some(Default::default()),
         }
     }
 }
