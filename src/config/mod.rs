@@ -17,6 +17,9 @@ pub struct Config {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub process: Option<Process>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hostname: Option<String>,
 }
 
 #[cfg(test)]
@@ -37,7 +40,8 @@ mod tests {
             "process": {
                 "cwd": "",
                 "args": []
-            }
+            },
+            "hostname": "pikachu"
         });
 
         assert_eq!(expected, json);
@@ -54,7 +58,8 @@ mod tests {
             "process": {
                 "cwd": "",
                 "args": []
-            }
+            },
+            "hostname": "pikachu"
         }"#;
 
         let config: Config = serde_json::from_str(json).unwrap();
@@ -74,6 +79,7 @@ mod tests {
         let expected = Config{
             mounts: None,
             process: None,
+            hostname: None,
 
             oci_version: String::from("foo"),
             root: Root{
@@ -91,6 +97,7 @@ mod tests {
             root: Default::default(),
             mounts: Some(vec![]),
             process: Some(Default::default()),
+            hostname: Some(String::from("pikachu")),
         }
     }
 }
