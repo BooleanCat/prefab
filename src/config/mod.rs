@@ -3,12 +3,14 @@ mod root;
 mod mount;
 mod hooks;
 mod vm;
+mod windows;
 
 pub use self::process::{Process, ConsoleSize, RLimit, Capabilities, User};
 pub use self::root::Root;
 pub use self::mount::Mount;
 pub use self::hooks::{Hooks, Hook};
 pub use self::vm::{Vm, Hypervisor, Kernel, Image};
+pub use self::windows::{Windows, Resources, Memory};
 
 use std::collections::HashMap;
 
