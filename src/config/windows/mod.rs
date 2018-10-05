@@ -1,8 +1,12 @@
 mod device;
 mod resources;
+mod network;
+mod hyperv;
 
-pub use self::device::Device;
-pub use self::resources::{Resources, Memory};
+use self::device::Device;
+use self::resources::Resources;
+use self::network::Network;
+use self::hyperv::Hyperv;
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -11,6 +15,21 @@ pub struct Windows {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub devices: Option<Vec<Device>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub resources: Option<Resources>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub network: Option<Network>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub servicing: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ignore_flushes_during_boot: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hyperv: Option<Hyperv>,
 }
 
 #[cfg(test)]
@@ -24,7 +43,12 @@ mod tests {
 
         let expected = json!({
             "layerFolders": ["C:\\foo\\bar", "C:\\bar\\baz"],
-            "devices": []
+            "devices": [],
+            "resources": {},
+            "network": {},
+            "servicing": true,
+            "ignoreFlushesDuringBoot": true,
+            "hyperv": {}
         });
 
         assert_eq!(expected, json);
@@ -34,7 +58,12 @@ mod tests {
     fn deserialize_windows() {
         let json = r#"{
             "layerFolders": ["C:\\foo\\bar", "C:\\bar\\baz"],
-            "devices": []
+            "devices": [],
+            "resources": {},
+            "network": {},
+            "servicing": true,
+            "ignoreFlushesDuringBoot": true,
+            "hyperv": {}
         }"#;
 
         let windows: Windows = serde_json::from_str(json).unwrap();
@@ -47,6 +76,11 @@ mod tests {
         let windows: Windows = serde_json::from_str(r#"{"layerFolders": []}"#).unwrap();
         let expected = Windows{
             devices: None,
+            resources: None,
+            network: None,
+            servicing: None,
+            ignore_flushes_during_boot: None,
+            hyperv: None,
 
             layer_folders: vec![],
         };
@@ -58,6 +92,11 @@ mod tests {
         Windows {
             layer_folders: vec![String::from("C:\\foo\\bar"), String::from("C:\\bar\\baz")],
             devices: Some(vec![]),
+            resources: Some(Default::default()),
+            network: Some(Default::default()),
+            servicing: Some(true),
+            ignore_flushes_during_boot: Some(true),
+            hyperv: Some(Default::default()),
         }
     }
 }

@@ -5,13 +5,12 @@ mod hooks;
 mod vm;
 mod windows;
 
-pub use self::process::{Process, ConsoleSize, RLimit, Capabilities, User};
-pub use self::root::Root;
-pub use self::mount::Mount;
-pub use self::hooks::{Hooks, Hook};
-pub use self::vm::{Vm, Hypervisor, Kernel, Image};
-pub use self::windows::{Windows, Resources, Memory};
-
+use self::process::Process;
+use self::root::Root;
+use self::mount::Mount;
+use self::hooks::Hooks;
+use self::vm::Vm;
+use self::windows::Windows;
 use std::collections::HashMap;
 
 #[serde(rename_all = "camelCase")]
@@ -34,6 +33,9 @@ pub struct Config {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub annotations: Option<HashMap<String, String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub windows: Option<Windows>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vm: Option<Vm>,
@@ -64,6 +66,7 @@ mod tests {
                 "foo": "bar",
                 "bar": "baz"
             },
+            "windows": {"layerFolders": []},
             "vm": {"kernel": {"path": ""}}
         });
 
@@ -88,6 +91,7 @@ mod tests {
                 "foo": "bar",
                 "bar": "baz"
             },
+            "windows": {"layerFolders": []},
             "vm": {"kernel": {"path": ""}}
         }"#;
 
@@ -109,6 +113,7 @@ mod tests {
             hostname: None,
             hooks: None,
             annotations: None,
+            windows: None,
             vm: None,
 
             oci_version: String::from("foo"),
@@ -138,6 +143,7 @@ mod tests {
                 String::from("foo") => String::from("bar"),
                 String::from("bar") => String::from("baz")
             ]),
+            windows: Some(Default::default()),
             vm: Some(Default::default()),
         }
     }

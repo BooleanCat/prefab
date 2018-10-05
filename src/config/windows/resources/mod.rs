@@ -1,11 +1,21 @@
 mod memory;
+mod cpu;
+mod storage;
 
-pub use self::memory::Memory;
+use self::memory::Memory;
+use self::cpu::Cpu;
+use self::storage::Storage;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Resources {
     #[serde(skip_serializing_if = "Option::is_none")]
     memory: Option<Memory>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    cpu: Option<Cpu>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    storage: Option<Storage>,
 }
 
 #[cfg(test)]
@@ -18,7 +28,9 @@ mod tests {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&resources_prototype()).unwrap()).unwrap();
 
         let expected = json!({
-            "memory": {}
+            "memory": {},
+            "cpu": {},
+            "storage": {}
         });
 
         assert_eq!(expected, json);
@@ -27,7 +39,9 @@ mod tests {
     #[test]
     fn deserialize_resources() {
         let json = r#"{
-            "memory": {}
+            "memory": {},
+            "cpu": {},
+            "storage": {}
         }"#;
 
         let resources: Resources = serde_json::from_str(json).unwrap();
@@ -40,6 +54,8 @@ mod tests {
         let resources: Resources = serde_json::from_str("{}").unwrap();
         let expected = Resources{
             memory: None,
+            cpu: None,
+            storage: None,
         };
 
         assert_eq!(expected, resources);
@@ -48,6 +64,8 @@ mod tests {
     fn resources_prototype() -> Resources {
         Resources {
             memory: Some(Default::default()),
+            cpu: Some(Default::default()),
+            storage: Some(Default::default()),
         }
     }
 }

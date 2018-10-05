@@ -2,9 +2,9 @@ mod hypervisor;
 mod kernel;
 mod image;
 
-pub use self::hypervisor::Hypervisor;
-pub use self::image::Image;
-pub use self::kernel::Kernel;
+use self::hypervisor::Hypervisor;
+use self::image::Image;
+use self::kernel::Kernel;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Vm {

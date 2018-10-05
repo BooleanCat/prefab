@@ -1,6 +1,6 @@
 mod hook;
 
-pub use self::hook::Hook;
+use self::hook::Hook;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Hooks {
