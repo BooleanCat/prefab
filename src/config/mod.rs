@@ -2,11 +2,13 @@ mod process;
 mod root;
 mod mount;
 mod hooks;
+mod vm;
 
 pub use self::process::{Process, ConsoleSize, RLimit, Capabilities, User};
 pub use self::root::Root;
 pub use self::mount::Mount;
 pub use self::hooks::{Hooks, Hook};
+pub use self::vm::{Vm, Hypervisor, Kernel, Image};
 
 use std::collections::HashMap;
 
@@ -30,6 +32,9 @@ pub struct Config {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub annotations: Option<HashMap<String, String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub vm: Option<Vm>,
 }
 
 #[cfg(test)]
@@ -56,7 +61,8 @@ mod tests {
             "annotations": {
                 "foo": "bar",
                 "bar": "baz"
-            }
+            },
+            "vm": {"kernel": {"path": ""}}
         });
 
         assert_eq!(expected, json);
@@ -79,7 +85,8 @@ mod tests {
             "annotations": {
                 "foo": "bar",
                 "bar": "baz"
-            }
+            },
+            "vm": {"kernel": {"path": ""}}
         }"#;
 
         let config: Config = serde_json::from_str(json).unwrap();
@@ -100,6 +107,7 @@ mod tests {
             hostname: None,
             hooks: None,
             annotations: None,
+            vm: None,
 
             oci_version: String::from("foo"),
             root: Default::default(),
@@ -128,6 +136,7 @@ mod tests {
                 String::from("foo") => String::from("bar"),
                 String::from("bar") => String::from("baz")
             ]),
+            vm: Some(Default::default()),
         }
     }
 }
