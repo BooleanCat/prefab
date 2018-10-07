@@ -2,6 +2,7 @@ mod process;
 mod root;
 mod mount;
 mod hooks;
+mod linux;
 mod solaris;
 mod windows;
 mod vm;
@@ -10,6 +11,7 @@ use self::process::Process;
 use self::root::Root;
 use self::mount::Mount;
 use self::hooks::Hooks;
+use self::linux::Linux;
 use self::solaris::Solaris;
 use self::windows::Windows;
 use self::vm::Vm;
@@ -35,6 +37,9 @@ pub struct Config {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub annotations: Option<HashMap<String, String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub linux: Option<Linux>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub solaris: Option<Solaris>,
@@ -71,6 +76,7 @@ mod tests {
                 "foo": "bar",
                 "bar": "baz"
             },
+            "linux": {},
             "solaris": {},
             "windows": {"layerFolders": []},
             "vm": {"kernel": {"path": ""}}
@@ -97,6 +103,7 @@ mod tests {
                 "foo": "bar",
                 "bar": "baz"
             },
+            "linux": {},
             "solaris": {},
             "windows": {"layerFolders": []},
             "vm": {"kernel": {"path": ""}}
@@ -120,6 +127,7 @@ mod tests {
             hostname: None,
             hooks: None,
             annotations: None,
+            linux: None,
             solaris: None,
             windows: None,
             vm: None,
@@ -151,6 +159,7 @@ mod tests {
                 String::from("foo") => String::from("bar"),
                 String::from("bar") => String::from("baz")
             ]),
+            linux: Some(Default::default()),
             solaris: Some(Default::default()),
             windows: Some(Default::default()),
             vm: Some(Default::default()),
