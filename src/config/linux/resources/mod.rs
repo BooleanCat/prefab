@@ -4,6 +4,7 @@ mod cpu;
 mod block_io;
 mod hugepage_limit;
 mod network;
+mod pids;
 
 use self::device::Device;
 use self::memory::Memory;
@@ -11,6 +12,7 @@ use self::cpu::Cpu;
 use self::block_io::BlockIo;
 use self::hugepage_limit::HugepageLimit;
 use self::network::Network;
+use self::pids::Pids;
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -33,6 +35,9 @@ pub struct Resources {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub network: Option<Network>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pids: Option<Pids>,
 }
 
 #[cfg(test)]
@@ -50,7 +55,8 @@ mod tests {
             "cpu": {},
             "blockIO": {},
             "hugepageLimits": [],
-            "network": {}
+            "network": {},
+            "pids": {"limit": 0}
         });
 
         assert_eq!(expected, json);
@@ -64,7 +70,8 @@ mod tests {
             "cpu": {},
             "blockIO": {},
             "hugepageLimits": [],
-            "network": {}
+            "network": {},
+            "pids": {"limit": 0}
         }"#;
 
         let resources: Resources = serde_json::from_str(json).unwrap();
@@ -83,6 +90,7 @@ mod tests {
             block_io: None,
             hugepage_limits: None,
             network: None,
+            pids: None,
         };
 
         assert_eq!(expected, resources);
@@ -96,6 +104,7 @@ mod tests {
             block_io: Some(Default::default()),
             hugepage_limits: Some(vec![]),
             network: Some(Default::default()),
+            pids: Some(Default::default()),
         }
     }
 }
