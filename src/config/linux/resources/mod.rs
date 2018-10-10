@@ -5,6 +5,7 @@ mod block_io;
 mod hugepage_limit;
 mod network;
 mod pids;
+mod rdma;
 
 use self::device::Device;
 use self::memory::Memory;
@@ -13,6 +14,8 @@ use self::block_io::BlockIo;
 use self::hugepage_limit::HugepageLimit;
 use self::network::Network;
 use self::pids::Pids;
+use self::rdma::Rdma;
+use std::collections::HashMap;
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -38,12 +41,16 @@ pub struct Resources {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pids: Option<Pids>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rdma: Option<HashMap<String, Rdma>>,
 }
 
 #[cfg(test)]
 mod tests {
     use super::Resources;
     use serde_json;
+    use std::collections::HashMap;
 
     #[test]
     fn serialize_resources() {
@@ -56,7 +63,8 @@ mod tests {
             "blockIO": {},
             "hugepageLimits": [],
             "network": {},
-            "pids": {"limit": 0}
+            "pids": {"limit": 0},
+            "rdma": {}
         });
 
         assert_eq!(expected, json);
@@ -71,7 +79,8 @@ mod tests {
             "blockIO": {},
             "hugepageLimits": [],
             "network": {},
-            "pids": {"limit": 0}
+            "pids": {"limit": 0},
+            "rdma": {}
         }"#;
 
         let resources: Resources = serde_json::from_str(json).unwrap();
@@ -91,6 +100,7 @@ mod tests {
             hugepage_limits: None,
             network: None,
             pids: None,
+            rdma: None,
         };
 
         assert_eq!(expected, resources);
@@ -105,6 +115,7 @@ mod tests {
             hugepage_limits: Some(vec![]),
             network: Some(Default::default()),
             pids: Some(Default::default()),
+            rdma: Some(HashMap::new()),
         }
     }
 }
