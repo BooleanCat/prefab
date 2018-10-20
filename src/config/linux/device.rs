@@ -64,8 +64,8 @@ mod tests {
     #[test]
     fn deserialize_device_optional_fields() {
         let device: Device = serde_json::from_str(r#"{
-            "type": "",
-            "path": ""
+            "type": "c",
+            "path": "/dev/fuse"
         }"#).unwrap();
 
         let expected = Device{
@@ -75,8 +75,7 @@ mod tests {
             uid: None,
             gid: None,
 
-            device_type: String::from(""),
-            path: String::from(""),
+            ..device_prototype()
         };
 
         assert_eq!(expected, device);

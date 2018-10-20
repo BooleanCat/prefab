@@ -73,7 +73,10 @@ mod tests {
 
     #[test]
     fn deserialize_windows_optional_fields() {
-        let windows: Windows = serde_json::from_str(r#"{"layerFolders": []}"#).unwrap();
+        let windows: Windows = serde_json::from_str(r#"{
+            "layerFolders": ["C:\\foo\\bar", "C:\\bar\\baz"]}
+        "#).unwrap();
+
         let expected = Windows{
             devices: None,
             resources: None,
@@ -82,7 +85,7 @@ mod tests {
             ignore_flushes_during_boot: None,
             hyperv: None,
 
-            layer_folders: vec![],
+            ..windows_prototype()
         };
 
         assert_eq!(expected, windows);

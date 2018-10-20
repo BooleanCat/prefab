@@ -54,7 +54,7 @@ mod tests {
             env: None,
             timeout: None,
 
-            path: String::from("/foo/bar"),
+            ..hook_prototype()
         };
 
         assert_eq!(expected, hook);

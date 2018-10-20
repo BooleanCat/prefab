@@ -42,12 +42,12 @@ mod tests {
 
     #[test]
     fn deserialize_kernel_optional_fields() {
-        let kernel: Kernel = serde_json::from_str(r#"{"path": "/foo"}"#).unwrap();
+        let kernel: Kernel = serde_json::from_str(r#"{"path": "/foo/bar"}"#).unwrap();
         let expected = Kernel{
             parameters: None,
             initrd: None,
 
-            path: String::from("/foo"),
+            ..kernel_prototype()
         };
 
         assert_eq!(expected, kernel);

@@ -39,13 +39,13 @@ mod tests {
     #[test]
     fn deserialize_namespace_optional_fields() {
         let namespace: Namespace = serde_json::from_str(r#"{
-            "type": ""
+            "type": "pid"
         }"#).unwrap();
 
         let expected = Namespace{
             path: None,
 
-            namespace_type: Default::default(),
+            ..namespace_prototype()
         };
 
         assert_eq!(expected, namespace);

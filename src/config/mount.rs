@@ -53,10 +53,11 @@ mod tests {
         }"#).unwrap();
 
         let expected = Mount{
-            destination: String::from("/some/mount/destination"),
             source: None,
             options: None,
             mount_type: None,
+
+            ..mount_prototype()
         };
 
         assert_eq!(expected, mount);

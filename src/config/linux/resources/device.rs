@@ -62,7 +62,7 @@ mod tests {
             minor: None,
             access: None,
 
-            allow: true,
+            ..device_prototype()
         };
 
         assert_eq!(expected, device);

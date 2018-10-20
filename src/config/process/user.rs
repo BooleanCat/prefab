@@ -55,8 +55,7 @@ mod tests {
             additional_gids: None,
             username: None,
 
-            uid: 42,
-            gid: 43,
+            ..user_prototype()
         };
 
         assert_eq!(expected, user);

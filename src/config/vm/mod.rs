@@ -55,7 +55,7 @@ mod tests {
             hypervisor: None,
             image: None,
 
-            kernel: Default::default(),
+            ..vm_prototype()
         };
 
         assert_eq!(expected, vm);

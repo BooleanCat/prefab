@@ -37,11 +37,11 @@ mod tests {
 
     #[test]
     fn deserialize_hypervisor_optional_fields() {
-        let hypervisor: Hypervisor = serde_json::from_str(r#"{"path": "/foo"}"#).unwrap();
+        let hypervisor: Hypervisor = serde_json::from_str(r#"{"path": "/foo/bar"}"#).unwrap();
         let expected = Hypervisor{
             parameters: None,
 
-            path: String::from("/foo"),
+            ..hypervisor_prototype()
         };
 
         assert_eq!(expected, hypervisor);

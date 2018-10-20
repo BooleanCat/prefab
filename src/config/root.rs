@@ -39,8 +39,9 @@ mod tests {
     fn deserialize_root_optional_fields() {
         let root: Root = serde_json::from_str(r#"{"path": "/foo/bar"}"#).unwrap();
         let expected = Root{
-            path: String::from("/foo/bar"),
             readonly: None,
+
+            ..root_prototype()
         };
 
         assert_eq!(expected, root);

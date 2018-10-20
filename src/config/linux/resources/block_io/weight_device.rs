@@ -55,8 +55,7 @@ mod tests {
             weight: None,
             leaf_weight: None,
 
-            major: 8,
-            minor: 0,
+            ..weight_device_prototype()
         };
 
         assert_eq!(expected, weight_device);

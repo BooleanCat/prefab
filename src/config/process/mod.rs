@@ -125,8 +125,7 @@ mod tests {
             selinux_label: None,
             user: None,
 
-            cwd: String::from("/foo/bar"),
-            args: vec![String::from("foo"), String::from("bar")],
+            ..process_prototype()
         };
 
         assert_eq!(expected, process);

@@ -132,8 +132,7 @@ mod tests {
             windows: None,
             vm: None,
 
-            oci_version: String::from("foo"),
-            root: Default::default(),
+            ..config_prototype()
         };
 
         assert_eq!(expected, config);
