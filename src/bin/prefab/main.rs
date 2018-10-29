@@ -1,8 +1,6 @@
 mod config;
 
-#[macro_use]
 extern crate structopt;
-
 extern crate serde;
 
 #[cfg_attr(test, macro_use)]
