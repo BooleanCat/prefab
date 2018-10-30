@@ -1,4 +1,4 @@
-.PHONY: test test-unit test-integration
+.PHONY: test test-unit test-integration test-deps
 
 SHELL := /bin/bash
 
