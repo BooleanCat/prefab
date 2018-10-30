@@ -15,3 +15,6 @@ test-integration:
 
 test: test-unit build test-integration
 
+test-deps:
+	while read in; do luarocks install "$$in"; done < .rocks
+
