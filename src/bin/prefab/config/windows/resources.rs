@@ -5,6 +5,7 @@ mod storage;
 use self::memory::Memory;
 use self::cpu::Cpu;
 use self::storage::Storage;
+use serde_derive::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Resources {
@@ -27,7 +28,7 @@ mod tests {
     fn serialize_resources() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&resources_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "memory": {},
             "cpu": {},
             "storage": {}

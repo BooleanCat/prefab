@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct ConsoleSize {
     pub height: usize,
@@ -13,7 +15,7 @@ mod tests {
     fn serialize_console_size() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&ConsoleSize{height: 100, width: 200}).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "height": 100,
             "width": 200
         });

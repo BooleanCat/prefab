@@ -1,5 +1,3 @@
-extern crate nix;
-
 use std::{mem, ptr};
 use nix::{libc, errno, unistd};
 

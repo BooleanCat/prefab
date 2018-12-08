@@ -5,6 +5,7 @@ mod image;
 use self::hypervisor::Hypervisor;
 use self::image::Image;
 use self::kernel::Kernel;
+use serde_derive::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Vm {
@@ -26,7 +27,7 @@ mod tests {
     fn serialize_vm() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&vm_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "hypervisor": {"path": ""},
             "kernel": {"path": ""},
             "image": {"path": "", "format": ""}

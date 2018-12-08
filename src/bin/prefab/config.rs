@@ -16,6 +16,7 @@ use self::solaris::Solaris;
 use self::windows::Windows;
 use self::vm::Vm;
 use std::collections::HashMap;
+use serde_derive::{Serialize, Deserialize};
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -60,7 +61,7 @@ mod tests {
     fn serialize_config() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&config_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "ociVersion": "foo",
             "root": {
                 "path": "",

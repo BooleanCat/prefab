@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct User{
@@ -20,7 +22,7 @@ mod tests {
     fn serialize_user() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&user_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "uid": 42,
             "gid": 43,
             "additionalGids": [1, 2],

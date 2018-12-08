@@ -5,6 +5,7 @@ mod anet;
 use self::capped_cpu::CappedCpu;
 use self::capped_memory::CappedMemory;
 use self::anet::Anet;
+use serde_derive::{Serialize, Deserialize};
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -37,7 +38,7 @@ mod tests {
     #[test]
     fn serialize_solaris() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&solaris_prototype()).unwrap()).unwrap();
-        let expected = json!({
+        let expected = serde_json::json!({
             "milestone": "svc:/milestone/container:default",
             "limitpriv": "default",
             "maxShmMemory": "512m",

@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Arg {
@@ -19,7 +21,7 @@ mod tests {
     fn serialize_arg() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&arg_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "index": 2,
             "value": 42,
             "valueTwo": 7,

@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Hook {
     pub path: String,
@@ -21,7 +23,7 @@ mod tests {
     fn serialize_hook() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&hook_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "path": "/foo/bar",
             "args": ["foo", "bar"],
             "env": ["bar", "baz"],

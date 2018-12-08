@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct HugepageLimit {
@@ -14,7 +16,7 @@ mod tests {
     fn serialize_hugepage_limit() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&hugepage_limit_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "pageSize": "2MB",
             "limit": 209715200
         });

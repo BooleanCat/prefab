@@ -16,6 +16,7 @@ use self::network::Network;
 use self::pids::Pids;
 use self::rdma::Rdma;
 use std::collections::HashMap;
+use serde_derive::{Serialize, Deserialize};
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -56,7 +57,7 @@ mod tests {
     fn serialize_resources() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&resources_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "devices": [],
             "memory": {},
             "cpu": {},

@@ -1,6 +1,7 @@
 mod priority;
 
 use self::priority::Priority;
+use serde_derive::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Network {
@@ -21,7 +22,7 @@ mod tests {
     fn serialize_network() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&network_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "classID": 1048577,
             "priorities": []
         });

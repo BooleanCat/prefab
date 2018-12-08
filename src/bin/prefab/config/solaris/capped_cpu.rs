@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct CappedCpu {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -12,7 +14,7 @@ mod tests {
     #[test]
     fn serialize_capped_cpu() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&capped_cpu_prototype()).unwrap()).unwrap();
-        let expected = json!({"ncpus": "8"});
+        let expected = serde_json::json!({"ncpus": "8"});
 
         assert_eq!(expected, json);
     }

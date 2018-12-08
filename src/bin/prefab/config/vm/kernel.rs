@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Kernel {
     pub path: String,
@@ -18,7 +20,7 @@ mod tests {
     fn serialize_kernel() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&kernel_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "path": "/foo/bar",
             "parameters": ["one=1", "two=2"],
             "initrd": "/foo/bar.img"

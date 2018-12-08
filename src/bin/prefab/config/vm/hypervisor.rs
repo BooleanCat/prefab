@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Hypervisor {
     pub path: String,
@@ -15,7 +17,7 @@ mod tests {
     fn serialize_hypervisor() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&hypervisor_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "path": "/foo/bar",
             "parameters": ["one=1", "two=2"]
         });

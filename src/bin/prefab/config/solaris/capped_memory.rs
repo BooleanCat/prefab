@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct CappedMemory {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -16,7 +18,7 @@ mod tests {
     fn serialize_capped_memory() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&capped_memory_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "physical": "512m",
             "swap": "256m"
         });

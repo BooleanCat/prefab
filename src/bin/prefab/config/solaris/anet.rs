@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Anet {
@@ -32,7 +34,7 @@ mod tests {
     fn serialize_anet() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&anet_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "linkname": "net0",
             "lowerLink": "net2",
             "allowedAddress": "172.17.0.2/16",

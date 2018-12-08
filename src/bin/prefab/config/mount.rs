@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Mount{
     pub destination: String,
@@ -22,7 +24,7 @@ mod tests {
     fn serialize_mount() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&mount_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "destination": "/some/mount/destination",
             "source": "/some/mount/source",
             "options": ["ro", "bind"],

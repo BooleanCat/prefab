@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Image {
     pub path: String,
@@ -13,7 +15,7 @@ mod tests {
     fn serialize_image() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&image_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "path": "/foo/bar",
             "format": "dummy"
         });

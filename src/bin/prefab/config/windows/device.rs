@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Device {
@@ -14,7 +16,7 @@ mod tests {
     fn serialize_device() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&device_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "id": "24E552D7-6523-47F7-A647-D3465BF1F5CA",
             "idType": "class"
         });

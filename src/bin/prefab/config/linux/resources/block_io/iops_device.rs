@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct RateDevice {
     pub major: i64,
@@ -14,7 +16,7 @@ mod tests {
     fn serialize_rate_device() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&rate_device_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "major": 8,
             "minor": 0,
             "rate": 300

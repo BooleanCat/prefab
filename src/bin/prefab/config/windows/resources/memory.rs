@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Memory {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -13,7 +15,7 @@ mod tests {
     fn serialize_memory() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&memory_prototype()).unwrap()).unwrap();
 
-        let expected = json!({"limit": 1000});
+        let expected = serde_json::json!({"limit": 1000});
 
         assert_eq!(expected, json);
     }

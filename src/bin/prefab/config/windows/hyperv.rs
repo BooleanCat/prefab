@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Hyperv {
     #[serde(rename = "utilityVMPath")]
@@ -13,7 +15,7 @@ mod tests {
     #[test]
     fn serialize_hyperv() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&hyperv_prototype()).unwrap()).unwrap();
-        let expected = json!({"utilityVMPath": "C:\\path\\to\\utilityvm"});
+        let expected = serde_json::json!({"utilityVMPath": "C:\\path\\to\\utilityvm"});
 
         assert_eq!(expected, json);
     }

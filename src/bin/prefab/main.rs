@@ -1,18 +1,9 @@
 mod config;
 
-extern crate structopt;
-extern crate serde;
-
-#[cfg_attr(test, macro_use)]
-extern crate serde_json;
-
-#[macro_use]
-extern crate serde_derive;
-
 use std::path::PathBuf;
 use structopt::clap::AppSettings;
 use structopt::StructOpt;
-use config::Config;
+use crate::config::Config;
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "prefab")]

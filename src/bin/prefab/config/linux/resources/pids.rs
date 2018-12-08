@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Pids {
     pub limit: i64,
@@ -12,7 +14,7 @@ mod tests {
     fn serialize_pids() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&pids_prototype()).unwrap()).unwrap();
 
-        let expected = json!({"limit": 32771});
+        let expected = serde_json::json!({"limit": 32771});
 
         assert_eq!(expected, json);
     }

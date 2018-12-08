@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Namespace {
     #[serde(rename = "type")]
@@ -16,7 +18,7 @@ mod tests {
     fn serialize_namespace() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&namespace_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "type": "pid",
             "path": "/proc/self/ns/pid"
         });

@@ -3,6 +3,7 @@ mod iops_device;
 
 use self::weight_device::WeightDevice;
 use self::iops_device::RateDevice;
+use serde_derive::{Serialize, Deserialize};
 
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
@@ -40,7 +41,7 @@ mod tests {
     fn serialize_block_io() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&block_io_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "weight": 10,
             "leafWeight": 10,
             "weightDevice": [],

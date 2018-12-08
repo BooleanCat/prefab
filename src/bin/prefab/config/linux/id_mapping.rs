@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct IdMapping {
     #[serde(rename = "containerID")]
@@ -18,7 +20,7 @@ mod tests {
     fn serialize_id_mapping() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&id_mapping_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "containerID": 0,
             "hostID": 100,
             "size": 1

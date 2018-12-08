@@ -1,3 +1,5 @@
+use serde_derive::{Serialize, Deserialize};
+
 #[serde(rename_all = "camelCase")]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct IntelRdt {
@@ -21,7 +23,7 @@ mod tests {
     fn serialize_intel_rdt() {
         let json: serde_json::Value = serde_json::from_str(&serde_json::to_string(&intel_rdt_prototype()).unwrap()).unwrap();
 
-        let expected = json!({
+        let expected = serde_json::json!({
             "closID": "guaranteed_group",
             "l3CacheSchema": "L3:0=7f0;1=1f",
             "memBwSchema": "MB:0=20;1=70"
